@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { triggerLogin, formError, clearError } from '../../redux/actions/loginActions';
-
+import RegistrationLinkBar from '../RegistrationLinkBar/RegistrationLinkBar';
+import Button from '@material-ui/core/Button';
+import 'typeface-roboto';
 
 const mapStateToProps = state => ({
   user: state.user,
   login: state.login,
+
 });
 
 class LoginPage extends Component {
@@ -25,8 +27,12 @@ class LoginPage extends Component {
 
   
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user.userName) {
-      this.props.history.push('/user');
+    console.log(nextProps)
+    if (nextProps.user.userName != null && nextProps.user.userType === 'venue') {
+      this.props.history.push('/vprofile');
+    } 
+    else if (nextProps.user.userName != null && nextProps.user.userType === 'patron') {
+        this.props.history.push('/pprofile')
     }
   }
 
@@ -65,38 +71,30 @@ class LoginPage extends Component {
       <div>
         { this.renderAlert() }
         <form onSubmit={this.login}>
-          <h1>Login</h1>
+          <h1>Venu</h1>
           <div>
-            <label htmlFor="username">
-              Username:
-              <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                onChange={this.handleInputChangeFor('username')}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="password">
-              Password:
-              <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={this.handleInputChangeFor('password')}
-              />
-            </label>
+            <input
+              type="text"
+              name="username"
+              placeholder="username"
+              value={this.state.username}
+              onChange={this.handleInputChangeFor('username')}
+            />
           </div>
           <div>
             <input
-              type="submit"
-              name="submit"
-              value="Log In"
+              type="password"
+              name="password"
+              placeholder="password"
+              value={this.state.password}
+              onChange={this.handleInputChangeFor('password')}
             />
-            <Link to="/register">Register</Link>
+          </div>
+          <div>
+            <Button onClick={this.login}>Login</Button>  
           </div>
         </form>
+        <RegistrationLinkBar />
       </div>
     );
   }

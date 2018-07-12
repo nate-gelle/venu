@@ -1,6 +1,17 @@
 import { combineReducers } from 'redux';
 import { USER_ACTIONS } from '../actions/userActions';
 
+const userType = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.type || state;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+};
+
 const userName = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
@@ -25,5 +36,6 @@ const isLoading = (state = false, action) => {
 
 export default combineReducers({
   userName,
+  userType,
   isLoading,
 });

@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-class RegisterPage extends Component {
+class RegisterVenue extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      name: '',  
       username: '',
       password: '',
+      type: 'venue',
       message: '',
     };
   }
@@ -16,14 +18,16 @@ class RegisterPage extends Component {
   registerUser = (event) => {
     event.preventDefault();
 
-    if (this.state.username === '' || this.state.password === '') {
+    if (this.state.username === '' || this.state.password === '' || this.state.password === '') {
       this.setState({
-        message: 'Choose a username and password!',
+        message: 'Choose a username, password, and select your user type!',
       });
     } else {
       const body = {
+        name: this.state.name,
         username: this.state.username,
         password: this.state.password,
+        type: this.state.type,
       };
 
       // making the request to the server to post the new user's registration
@@ -72,6 +76,17 @@ class RegisterPage extends Component {
         <form onSubmit={this.registerUser}>
           <h1>Register User</h1>
           <div>
+            <label htmlFor="name">
+              Venue Name:
+              <input
+                type="text"
+                name="name"
+                value={this.state.name}
+                onChange={this.handleInputChangeFor('name')}
+              />
+            </label>
+          </div>
+          <div>
             <label htmlFor="username">
               Username:
               <input
@@ -99,7 +114,7 @@ class RegisterPage extends Component {
               name="submit"
               value="Register"
             />
-            <Link to="/home">Cancel</Link>
+            <Link to="/login">Cancel</Link>
           </div>
         </form>
       </div>
@@ -107,5 +122,5 @@ class RegisterPage extends Component {
   }
 }
 
-export default RegisterPage;
+export default RegisterVenue;
 

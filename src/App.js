@@ -6,31 +6,50 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
-import RegisterPage from './components/RegisterPage/RegisterPage';
-import UserPage from './components/UserPage/UserPage';
+import WelcomePage from './components/WelcomePage/WelcomePage';
+import RegisterPatron from './components/RegisterPatron/RegisterPatron';
+import RegisterVenue from './components/RegisterVenue/RegisterVenue';
+import PatronProfile from './components/PatronProfile/PatronProfile';
+import VenueProfile from './components/VenueProfile/VenueProfile';
+import VenueEditor from './components/VenueEditor/VenueEditor';
 import InfoPage from './components/InfoPage/InfoPage';
 
 import './styles/main.css';
+import 'typeface-roboto';
 
 const App = () => (
   <div>
-    <Header title="Project Base" />
     <Router>
       <Switch>
-        <Redirect exact from="/" to="/home" />
+        <Redirect exact from="/" to="/login" />
         <Route
-          path="/home"
+          path="/login"
           component={LoginPage}
         />
         <Route
-          path="/register"
-          component={RegisterPage}
+          path="/welcome"
+          component={WelcomePage}
+        />  
+        <Route
+          path="/regpatron"
+          component={RegisterPatron}
         />
         <Route
-          path="/user"
-          component={UserPage}
+          path="/regvenue"
+          component={RegisterVenue}
+        />
+        <Route
+          path="/pprofile"
+          component={PatronProfile}
+        />
+        <Route
+          path="/vprofile"
+          component={VenueProfile}
+        />
+        <Route
+          path="/editvenue"
+          component={VenueEditor}
         />
         <Route
           path="/info"

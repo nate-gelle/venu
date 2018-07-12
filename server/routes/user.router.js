@@ -9,7 +9,12 @@ const router = express.Router();
 // Handles Ajax request for user information if user is authenticated
 router.get('/', rejectUnauthenticated, (req, res) => {
   // Send back user object from database
-  res.send(req.user);
+  queryText = 'SELECT id, username, type FROM person WHERE id=$1';
+  pool.query(queryText, [req.user.id])
+    .then((result) => {
+      res.send(result.rows[0]);
+      console.log('result:', result);
+    })
 });
 
 // Handles POST request with new user data
@@ -20,12 +25,28 @@ router.post('/register', (req, res, next) => {
   
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
-
-  const queryText = 'INSERT INTO person (username, password) VALUES ($1, $2) RETURNING id';
-  pool.query(queryText, [username, password])
-    .then(() => { res.sendStatus(201); })
-    .catch((err) => { next(err); });
-});
+  const type = req.body.type;
+  const name = req.body.name;
+  const first = req.body.first;
+  const last = req.body.last;
+  const queryTextPerson = 'INSERT INTO person (username, password, type) VALUES ($1, $2, $3) RETURNING id';
+  const queryTextPatron = 'INSERT INTO patron (first, last) VALUES ($1, $2)';
+  const queryTextVenue = 'INSERT INTO venue (name) VALUES ($1)';
+  pool.query(queryTextPerson, [username, password, type])
+    .then(() => {
+      if(type === 'venue'){
+        pool.query(queryTextVenue, [name])
+          .then(() => {res.sendStatus(201); })
+          .catch((err) => { next(err); });
+      }  
+      else if(type === 'patron'){
+        pool.query(queryTextPatron, [first, last])
+          .then(() => {res.sendStatus(201); })
+          .catch((err) => { next(err); });
+      };
+    })
+      .catch((err) => { next(err); })
+});    
 
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
