@@ -11,6 +11,7 @@ import WelcomePage from './components/WelcomePage/WelcomePage';
 import RegisterPatron from './components/RegisterPatron/RegisterPatron';
 import RegisterVenue from './components/RegisterVenue/RegisterVenue';
 import PatronProfile from './components/PatronProfile/PatronProfile';
+import PatronListView from './components/PatronListView/PatronListView';
 import VenueProfile from './components/VenueProfile/VenueProfile';
 import VenueEditor from './components/VenueEditor/VenueEditor';
 import InfoPage from './components/InfoPage/InfoPage';
@@ -38,6 +39,10 @@ const App = () => (
         <Route
           path="/regvenue"
           component={RegisterVenue}
+        />
+        <Route
+          path="/plistview"
+          component={PatronListView}
         />
         <Route
           path="/pprofile"

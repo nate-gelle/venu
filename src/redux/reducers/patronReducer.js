@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import {PATRON_ACTIONS} from '../actions/patronActions';
 
-const venueData = (state = {}, action) => {
+const venueData = (state = [], action) => {
     switch (action.type) {
-        case PATRON_ACTIONS.STORE:
+        case PATRON_ACTIONS.PSTORE:
             return action.payload || state;    
     default:
         return state;

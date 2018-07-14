@@ -14,9 +14,9 @@ function* putVenue(action) {
 
 function* getVenue(action) {
     try {
-        const venue = yield getVenueInfo(action);
-        yield console.log('venue is:', venue)
-        yield put({type: VENUE_ACTIONS.STORE, payload: venue});
+        const profileInfo = yield getVenueInfo(action);
+        yield console.log('profileInfo is:', profileInfo)
+        yield put({type: VENUE_ACTIONS.STORE, payload: profileInfo});
     } catch (error) {
         console.log(error);
     }

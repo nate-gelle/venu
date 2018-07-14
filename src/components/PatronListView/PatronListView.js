@@ -1,91 +1,141 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
-import {VENUE_ACTIONS} from '../../redux/actions/venueActions';
+import {PATRON_ACTIONS} from '../../redux/actions/patronActions';
+import { triggerLogout } from '../../redux/actions/loginActions';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Icon from '@material-ui/core/Icon';
-import './VenueProfileCard.css';
+import IconButton from '@material-ui/core/IconButton';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import classnames from 'classnames';
 
-const styles = {
+const styles = theme => ({
     card: {
-      width: '100%',
-    },
-    editButton: {
-      float: 'right',
+        width: '100%',
     },
     media: {
-      height: '25%',
+        height: '25%',
     },
-};
-
-const mapStateToProps = state => ({
-  venue: state.venue.venueProfileInfo
+    distance: {
+        float: 'right',
+        top: '0',
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        transition: theme.transitions.create('transform', {
+          duration: theme.transitions.duration.shortest,
+        }),
+        marginLeft: 'auto',
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
+    },
 });
 
-class VenueProfileCard extends Component {
-  componentDidMount() {
-    this.props.dispatch({ type: VENUE_ACTIONS.GET });
-  }
+const mapStateToProps = state => ({
+  venues: state.patron.venueData,
+});
+
+class PatronListView extends Component {
+    state = {expanded: false};
+
+    handleExpandClick = () => {
+        this.setState(state => ({ expanded: !state.expanded }));
+    };
+
+    componentDidMount(){
+        this.props.dispatch({ type: PATRON_ACTIONS.PGET })
+    }
+
+    logout = () => {
+        this.props.dispatch(triggerLogout());
+        this.props.history.push('login');
+    }
   
-  openEditor = () => {
-    this.props.history.push('editvenue');
-  }
-  
-  render () {
-    const { classes } = this.props;  
-    return (
-      <div>
-        <Card className={classes.card}>
-          <CardMedia
-            className={classes.media}
-            component="img"
-            src={this.props.venue.image_url}
-            title="venueCover"
-          />
-          <CardContent>
-          <Button onClick={this.openEditor} className={classes.editButton}>
-                <Icon>
-                    edit
-                </Icon>
-            </Button>
-            <Typography gutterBottom variant="headline" component="h2">
-              {this.props.venue.name}
-            </Typography>    
-            <Typography component="ul">
-              <li>{this.props.venue.category}</li>
-              <br/>
-              <li>{this.props.venue.url}</li>
-              <br/>
-              <li>{this.props.venue.address}</li>
-              <br/>
-              <li>{this.props.venue.phone}</li>
-              <br/>
-              <li>{this.props.venue.outdoor}</li>
-              <br/>
-              <li>{this.props.venue.price}</li>
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small" color="primary">
-              Post
-            </Button>
-          </CardActions>
-        </Card>
-      </div>
-    );
-  }  
-    
+    render () {
+        const { classes } = this.props;
+        let content = null;
+        if (this.props.venues === []){
+            content = (
+                <div>
+                    <p>Loading</p>
+                </div>
+            );
+        } else {  
+            content = (
+                <div>
+                    <Button id="logoutButton" onClick={this.logout}>
+                        Log Out
+                    </Button>
+                    {this.props.venues.map((venue, i) => 
+                        <div key={i}> 
+                            <Card className={classes.card}>
+                                <CardMedia
+                                    className={classes.media}
+                                    component="img"
+                                    src={venue.image_url}
+                                    title="venueCover"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="headline" component="h2">
+                                    {venue.name}
+                                    </Typography>
+                                    <Typography className={classes.distance} component="p">
+                                        [venue.distance]
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button size="small" color="primary">Post</Button>
+                                    <IconButton
+                                        className={classnames(classes.expand, {
+                                            [classes.expandOpen]: this.state.expanded,
+                                        })}
+                                        onClick={this.handleExpandClick}
+                                        aria-expanded={this.state.expanded}
+                                        aria-label="Show more">
+                                        <ExpandMoreIcon />
+                                    </IconButton>
+                                </CardActions>
+                                <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+                                    <CardContent>
+                                    <Typography component="ul">
+                                        <li>{venue.category}</li>
+                                        <br/>
+                                        <li>{venue.url}</li>
+                                        <br/>
+                                        <li>{venue.address}</li>
+                                        <br/>
+                                        <li>{venue.phone}</li>
+                                        <br/>
+                                        <li>{venue.outdoor}</li>
+                                        <br/>
+                                        <li>{venue.price}</li>
+                                    </Typography>
+                                    </CardContent>
+                                </Collapse>        
+                            </Card>
+                        </div>)}
+                </div>
+            );
+        }
+
+        return (
+        <div>
+            {content}
+        </div>
+        );  
+    }   
 }
 
-VenueProfileCard.propTypes = {
+PatronListView.propTypes = {
   classes: PropTypes.object.isRequired,
 };
   
-  export default compose(withStyles(styles),connect(mapStateToProps))(VenueProfileCard);
+  export default compose(withStyles(styles),connect(mapStateToProps))(PatronListView);
