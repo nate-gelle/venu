@@ -2,9 +2,6 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/**
- * GET route template
- */
 router.get('/', (req, res) => {
     const id = req.user.id
     const queryText = 'SELECT * FROM venue WHERE person_id=$1';
@@ -15,12 +12,9 @@ router.get('/', (req, res) => {
       })
 });
 
-/**
- * POST route template
- */
-router.post('/', (req, res) => {
+// router.post('/', (req, res) => {
 
-});
+// });
 
 router.put('/update', (req, res) => {
     console.log('update req:', req.body);
