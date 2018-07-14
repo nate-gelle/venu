@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {VENUE_ACTIONS} from '../../redux/actions/venueActions';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -14,58 +17,75 @@ const styles = {
     card: {
       width: '100%',
     },
+    editButton: {
+      float: 'right',
+    },
     media: {
-      height: 0,
-      paddingTop: '56.25%', // 16:9
+      height: '25%',
     },
 };
 
-// class VenueProfileCard extends
+const mapStateToProps = state => ({
+  venue: state.venue.venueProfileInfo
+});
 
-// openEditor = (event) => {
-//     this.props.history.push('editvenue');
-// }
-
-function VenueProfileCard(props) {
-    const { classes } = props;
+class VenueProfileCard extends Component {
+  componentDidMount() {
+    this.props.dispatch({ type: VENUE_ACTIONS.GET });
+  }
+  
+  openEditor = () => {
+    this.props.history.push('editvenue');
+  }
+  
+  render () {
+    const { classes } = this.props;  
     return (
       <div>
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="Contemplative Reptile"
+            component="img"
+            src={this.props.venue.image_url}
+            title="venueCover"
           />
           <CardContent>
-            <Typography gutterBottom variant="headline" component="h2">
-              Venue Name
-            </Typography>
-            <Button onClick={this.openEditor()}>
-                <Icon class="material-icons">
+          <Button onClick={this.openEditor} className={classes.editButton}>
+                <Icon>
                     edit
                 </Icon>
-            </Button>    
-            <Typography component="p">
-              Information
+            </Button>
+            <Typography gutterBottom variant="headline" component="h2">
+              {this.props.venue.name}
+            </Typography>    
+            <Typography component="ul">
+              <li>{this.props.venue.category}</li>
+              <br/>
+              <li>{this.props.venue.url}</li>
+              <br/>
+              <li>{this.props.venue.address}</li>
+              <br/>
+              <li>{this.props.venue.phone}</li>
+              <br/>
+              <li>{this.props.venue.outdoor}</li>
+              <br/>
+              <li>{this.props.venue.price}</li>
             </Typography>
           </CardContent>
           <CardActions>
             <Button size="small" color="primary">
               Post
             </Button>
-            <CardMedia
-                className={classes.media}
-                image="https://res.cloudinary.com/dqadknr5p/image/upload/v1531415713/Venue%20Profile/CPdummyMap.png"
-                title="CP Dummy Map"
-            />
           </CardActions>
         </Card>
       </div>
     );
-  }
+  }  
+    
+}
+
+VenueProfileCard.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
   
-  VenueProfileCard.propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
-  
-  export default withStyles(styles)(VenueProfileCard);
+  export default compose(withStyles(styles),connect(mapStateToProps))(VenueProfileCard);

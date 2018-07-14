@@ -22,7 +22,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 // is that the password gets encrypted before being inserted
 router.post('/register', (req, res, next) => {
   console.log('req: ', req.body);
-  
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
   const type = req.body.type;
@@ -31,11 +30,12 @@ router.post('/register', (req, res, next) => {
   const last = req.body.last;
   const queryTextPerson = 'INSERT INTO person (username, password, type) VALUES ($1, $2, $3) RETURNING id';
   const queryTextPatron = 'INSERT INTO patron (first, last) VALUES ($1, $2)';
-  const queryTextVenue = 'INSERT INTO venue (name) VALUES ($1)';
+  const queryTextVenue = 'INSERT INTO venue (name, person_id) VALUES ($1, $2)';
   pool.query(queryTextPerson, [username, password, type])
-    .then(() => {
+    .then((result) => {
+      console.log(result);
       if(type === 'venue'){
-        pool.query(queryTextVenue, [name])
+        pool.query(queryTextVenue, [name, result.rows[0].id])
           .then(() => {res.sendStatus(201); })
           .catch((err) => { next(err); });
       }  

@@ -10,3 +10,7 @@
     padding: 10px;
     top: 0;
 }
+
+#logoutButton {
+    float: right;
+}

@@ -1,61 +1,52 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import {VENUE_ACTIONS} from '../../redux/actions/venueActions';
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
 
-class RegisterVenue extends Component {
+class VenueEditor extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      name: '',  
-      username: '',
-      password: '',
-      type: 'venue',
+      category: '',  
+      url: '',
+      address: '',
+      phone: '',
+      outdoor: '',
+      price: '',
+      image_url: '',
       message: '',
     };
   }
 
-  registerUser = (event) => {
+  updateProfile = (event) => {
     event.preventDefault();
-
-    if (this.state.username === '' || this.state.password === '' || this.state.password === '') {
-      this.setState({
-        message: 'Choose a username, password, and select your user type!',
-      });
-    } else {
-      const body = {
-        name: this.state.name,
-        username: this.state.username,
-        password: this.state.password,
-        type: this.state.type,
-      };
-
-      // making the request to the server to post the new user's registration
-      axios.post('/api/user/register/', body)
-        .then((response) => {
-          if (response.status === 201) {
-            this.props.history.push('/home');
-          } else {
-            this.setState({
-              message: 'Ooops! That didn\'t work. The username might already be taken. Try again!',
-            });
-          }
-        })
-        .catch(() => {
-          this.setState({
-            message: 'Ooops! Something went wrong! Is the server running?',
-          });
-        });
-    }
+    this.props.dispatch({type: VENUE_ACTIONS.UPDATE, payload: this.state});
+    this.setState({
+      category: '',  
+      url: '',
+      address: '',
+      phone: '',
+      outdoor: '',
+      price: '',
+      image_url: '',
+      message: '',
+    });
+    this.props.history.push('vprofile');
   } // end registerUser
 
-  handleInputChangeFor = propertyName => (event) => {
+  handleInputChangeFor = (propertyName) => (event) => {
     this.setState({
       [propertyName]: event.target.value,
     });
   }
 
-  renderAlert() {
+  cancel = (event) => {
+    event.preventDefault();
+    this.props.history.push('vprofile');
+  }
+
+  renderAlert = () => {
     if (this.state.message !== '') {
       return (
         <h2
@@ -73,48 +64,79 @@ class RegisterVenue extends Component {
     return (
       <div>
         {this.renderAlert()}
-        <form onSubmit={this.registerUser}>
-          <h1>Register User</h1>
+        <Button onClick={this.cancel}>
+          Cancel
+        </Button>
+        <form onSubmit={this.updateProfile}>
           <div>
-            <label htmlFor="name">
-              Venue Name:
               <input
                 type="text"
-                name="name"
-                value={this.state.name}
-                onChange={this.handleInputChangeFor('name')}
+                name="category"
+                placeholder="category"
+                value={this.state.category}
+                onChange={this.handleInputChangeFor('category')}
               />
-            </label>
           </div>
           <div>
-            <label htmlFor="username">
-              Username:
               <input
                 type="text"
-                name="username"
-                value={this.state.username}
-                onChange={this.handleInputChangeFor('username')}
+                name="url"
+                placeholder="url"
+                value={this.state.url}
+                onChange={this.handleInputChangeFor('url')}
               />
-            </label>
           </div>
           <div>
-            <label htmlFor="password">
-              Password:
               <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={this.handleInputChangeFor('password')}
+                type="text"
+                name="address"
+                placeholder="address"
+                value={this.state.address}
+                onChange={this.handleInputChangeFor('address')}
               />
-            </label>
+          </div>
+          <div>
+              <input
+                type="text"
+                name="phone"
+                placeholder="phone"
+                value={this.state.phone}
+                onChange={this.handleInputChangeFor('phone')}
+              />
+          </div>
+          <div>
+              <input
+                type="text"
+                name="coverPhoto"
+                placeholder="image url"
+                value={this.state.image_url}
+                onChange={this.handleInputChangeFor('image_url')}
+              />
+          </div>
+          <div>
+              <input
+                type="text"
+                name="outdoor"
+                placeholder="outdoor seating?"
+                value={this.state.outdoor}
+                onChange={this.handleInputChangeFor('outdoor')}
+              />
+          </div>
+          <div>
+              <input
+                type="text"
+                name="price"
+                placeholder="$-$$$"
+                value={this.state.price}
+                onChange={this.handleInputChangeFor('price')}
+              />
           </div>
           <div>
             <input
               type="submit"
               name="submit"
-              value="Register"
+              value="Save Changes"
             />
-            <Link to="/login">Cancel</Link>
           </div>
         </form>
       </div>
@@ -122,4 +144,4 @@ class RegisterVenue extends Component {
   }
 }
 
-export default RegisterVenue;
+export default connect()(VenueEditor);

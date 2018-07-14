@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import VenueProfileCard from '../VenueProfileCard/VenueProfileCard';
 import '../VenueProfile/VenueProfile.css';
+import Button from '@material-ui/core/Button';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { triggerLogout } from '../../redux/actions/loginActions';
@@ -32,17 +33,15 @@ class VenueProfile extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-            {/* <p id="username">{this.props.user.userName}</p>
-            <div id="cover">
-                <img alt="venue's cover" src="{this.props.user.venueProfileInfo.media}"/>
-            </div>
-            <h1 id="venueName"> 
-                Venue Name Goes Here.
-            </h1>
-            <button onClick={this.logout}>
+            <p id="username">{this.props.user.userName}</p>
+            <br/>
+            <Button id="logoutButton" onClick={this.logout}>
                 Log Out
-            </button> */}
-            <VenueProfileCard />
+            </Button>
+            {/* <div id="cover">
+                <img alt="venue's cover"/>
+            </div> */}
+            <VenueProfileCard history={this.props.history}/>
         </div>
       );
     }
