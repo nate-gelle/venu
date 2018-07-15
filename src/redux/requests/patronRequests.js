@@ -6,3 +6,10 @@ export function getVenueData(action) {
         .then(result => result.data)
         .catch(error => {throw error.response || error; });
 }
+
+export function putCheckIn(action) {
+    console.log('putCheckIn action:', action);
+    return axios.put('api/patron')
+        .then(result => result.data)
+        .catch(error => {throw error.response || error; });
+}

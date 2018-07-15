@@ -1,4 +1,6 @@
 export const PATRON_ACTIONS = {
     PGET: 'PGET',
     PSTORE: 'PSTORE',
+    CHECK_IN: 'CHECK_IN',
+    STORE_CHECK_IN: 'STORE_CHECK_IN',
 };

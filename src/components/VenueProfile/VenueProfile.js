@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import VenueProfileCard from '../VenueProfileCard/VenueProfileCard';
 import '../VenueProfile/VenueProfile.css';
 import Button from '@material-ui/core/Button';
-
+import Icon from '@material-ui/core/Icon';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import { triggerLogout } from '../../redux/actions/loginActions';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -22,9 +21,9 @@ class VenueProfile extends Component {
     }
   }
 
-  logout = () => {
-    this.props.dispatch(triggerLogout());
-    this.props.history.push('login');
+  openSettings = (event) => {
+    event.preventDefault();
+    this.props.history.push('vsettings');
   }
 
   render() {
@@ -33,15 +32,12 @@ class VenueProfile extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-            <p id="username">{this.props.user.userName}</p>
-            <br/>
-            <Button id="logoutButton" onClick={this.logout}>
-                Log Out
-            </Button>
-            {/* <div id="cover">
-                <img alt="venue's cover"/>
-            </div> */}
-            <VenueProfileCard history={this.props.history}/>
+          <Button onClick={this.openSettings} id="settingsButton">
+            <Icon>
+              settings
+            </Icon>                
+          </Button>
+          <VenueProfileCard history={this.props.history}/>
         </div>
       );
     }

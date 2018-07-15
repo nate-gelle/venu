@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {PATRON_ACTIONS} from '../../redux/actions/patronActions';
-import { triggerLogout } from '../../redux/actions/loginActions';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -12,6 +11,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import classnames from 'classnames';
@@ -48,17 +48,22 @@ class PatronListView extends Component {
 
     handleExpandClick = () => {
         this.setState(state => ({ expanded: !state.expanded }));
-    };
+    }
+
+    openSettings = (event) => {
+        event.preventDefault();
+        this.props.history.push('psettings');
+    }
+
+    checkIn = (event) => {
+        event.preventDefault();
+        this.props.dispatch({ type: PATRON_ACTIONS.CHECK_IN })
+    }
 
     componentDidMount(){
         this.props.dispatch({ type: PATRON_ACTIONS.PGET })
     }
 
-    logout = () => {
-        this.props.dispatch(triggerLogout());
-        this.props.history.push('login');
-    }
-  
     render () {
         const { classes } = this.props;
         let content = null;
@@ -71,9 +76,11 @@ class PatronListView extends Component {
         } else {  
             content = (
                 <div>
-                    <Button id="logoutButton" onClick={this.logout}>
-                        Log Out
-                    </Button>
+                    <Button onClick={this.openSettings} id="settingsButton">
+                        <Icon>
+                            settings
+                        </Icon>                
+                    </Button>   
                     {this.props.venues.map((venue, i) => 
                         <div key={i}> 
                             <Card className={classes.card}>
@@ -92,7 +99,7 @@ class PatronListView extends Component {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="small" color="primary">Post</Button>
+                                    <Button onClick={this.checkIn} size="small" color="primary">Check In</Button>
                                     <IconButton
                                         className={classnames(classes.expand, {
                                             [classes.expandOpen]: this.state.expanded,

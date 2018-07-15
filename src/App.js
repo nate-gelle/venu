@@ -12,8 +12,10 @@ import RegisterPatron from './components/RegisterPatron/RegisterPatron';
 import RegisterVenue from './components/RegisterVenue/RegisterVenue';
 import PatronProfile from './components/PatronProfile/PatronProfile';
 import PatronListView from './components/PatronListView/PatronListView';
+import PatronSettings from './components/PatronSettings/PatronSettings';
 import VenueProfile from './components/VenueProfile/VenueProfile';
 import VenueEditor from './components/VenueEditor/VenueEditor';
+import VenueSettings from './components/VenueSettings/VenueSettings';
 import InfoPage from './components/InfoPage/InfoPage';
 
 import './styles/main.css';
@@ -49,12 +51,20 @@ const App = () => (
           component={PatronProfile}
         />
         <Route
+          path="/psettings"
+          component={PatronSettings}
+        />
+        <Route
           path="/vprofile"
           component={VenueProfile}
         />
         <Route
           path="/editvenue"
           component={VenueEditor}
+        />
+        <Route
+          path="/vsettings"
+          component={VenueSettings}
         />
         <Route
           path="/info"
