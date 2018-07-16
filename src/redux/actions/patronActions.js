@@ -3,4 +3,5 @@ export const PATRON_ACTIONS = {
     PSTORE: 'PSTORE',
     CHECK_IN: 'CHECK_IN',
     STORE_CHECK_IN: 'STORE_CHECK_IN',
+    CHECK_OUT: 'CHECK_OUT',
 };

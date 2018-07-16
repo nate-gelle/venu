@@ -16,6 +16,10 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import classnames from 'classnames';
 
+const mapStateToProps = state => ({
+  venues: state.patron.venueData,
+});
+
 const styles = theme => ({
     card: {
         width: '100%',
@@ -39,12 +43,19 @@ const styles = theme => ({
     },
 });
 
-const mapStateToProps = state => ({
-  venues: state.patron.venueData,
-});
-
 class PatronListView extends Component {
-    state = {expanded: false};
+    state = {
+        expanded: false,
+    };
+
+    checkIn = (id, checkInId) => {
+        console.log('in checkIn, id=', id, checkInId);
+        if(checkInId == null){
+            this.props.dispatch({ type: PATRON_ACTIONS.CHECK_IN, payload: id });
+        }else if(id === checkInId){
+            this.props.dispatch({ type: PATRON_ACTIONS.CHECK_OUT })
+        }    
+    }
 
     handleExpandClick = () => {
         this.setState(state => ({ expanded: !state.expanded }));
@@ -53,11 +64,6 @@ class PatronListView extends Component {
     openSettings = (event) => {
         event.preventDefault();
         this.props.history.push('psettings');
-    }
-
-    checkIn = (event) => {
-        event.preventDefault();
-        this.props.dispatch({ type: PATRON_ACTIONS.CHECK_IN })
     }
 
     componentDidMount(){
@@ -81,54 +87,54 @@ class PatronListView extends Component {
                             settings
                         </Icon>                
                     </Button>   
-                    {this.props.venues.map((venue, i) => 
-                        <div key={i}> 
-                            <Card className={classes.card}>
-                                <CardMedia
-                                    className={classes.media}
-                                    component="img"
-                                    src={venue.image_url}
-                                    title="venueCover"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="headline" component="h2">
-                                    {venue.name}
-                                    </Typography>
-                                    <Typography className={classes.distance} component="p">
-                                        [venue.distance]
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button onClick={this.checkIn} size="small" color="primary">Check In</Button>
-                                    <IconButton
-                                        className={classnames(classes.expand, {
-                                            [classes.expandOpen]: this.state.expanded,
-                                        })}
-                                        onClick={this.handleExpandClick}
-                                        aria-expanded={this.state.expanded}
-                                        aria-label="Show more">
-                                        <ExpandMoreIcon />
-                                    </IconButton>
-                                </CardActions>
-                                <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+                        {this.props.venues.map((venue, i) =>
+                            <div key={i}> 
+                                <Card className={classes.card}>
+                                    <CardMedia
+                                        className={classes.media}
+                                        component="img"
+                                        src={venue.image_url}
+                                        title="venueCover"
+                                    />
                                     <CardContent>
-                                    <Typography component="ul">
-                                        <li>{venue.category}</li>
-                                        <br/>
-                                        <li>{venue.url}</li>
-                                        <br/>
-                                        <li>{venue.address}</li>
-                                        <br/>
-                                        <li>{venue.phone}</li>
-                                        <br/>
-                                        <li>{venue.outdoor}</li>
-                                        <br/>
-                                        <li>{venue.price}</li>
-                                    </Typography>
+                                        <Typography gutterBottom variant="headline" component="h2">
+                                        {venue.name}
+                                        </Typography>
+                                        <Typography className={classes.distance} component="p">
+                                            [venue.distance]
+                                        </Typography>
                                     </CardContent>
-                                </Collapse>        
-                            </Card>
-                        </div>)}
+                                    <CardActions>
+                                        <Button onClick={() => this.checkIn(venue.person_id, venue.venue_person_id)} size="small" color="primary">{venue.venue_person_id === null? 'Check In' : 'Check Out' }</Button>
+                                        <IconButton
+                                            className={classnames(classes.expand, {
+                                                [classes.expandOpen]: this.state.expanded,
+                                            })}
+                                            onClick={this.handleExpandClick}
+                                            aria-expanded={this.state.expanded}
+                                            aria-label="Show more">
+                                            <ExpandMoreIcon />
+                                        </IconButton>
+                                    </CardActions>
+                                    <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+                                        <CardContent>
+                                        <Typography component="ul">
+                                            <li>{venue.category}</li>
+                                            <br/>
+                                            <li>{venue.url}</li>
+                                            <br/>
+                                            <li>{venue.address}</li>
+                                            <br/>
+                                            <li>{venue.phone}</li>
+                                            <br/>
+                                            <li>{venue.outdoor}</li>
+                                            <br/>
+                                            <li>{venue.price}</li>
+                                        </Typography>
+                                        </CardContent>
+                                    </Collapse>        
+                                </Card>
+                            </div>)}        
                 </div>
             );
         }
@@ -145,4 +151,4 @@ PatronListView.propTypes = {
   classes: PropTypes.object.isRequired,
 };
   
-  export default compose(withStyles(styles),connect(mapStateToProps))(PatronListView);
+export default compose(withStyles(styles),connect(mapStateToProps))(PatronListView);
