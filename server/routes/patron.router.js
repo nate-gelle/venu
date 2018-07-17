@@ -2,7 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/venues', (req, res) => {
   const queryText = 'SELECT * FROM venue LEFT JOIN checkins ON person_id = venue_person_id;';
   pool.query(queryText)
     .then((result) => {
@@ -13,17 +13,40 @@ router.get('/', (req, res) => {
     })
 });
 
-// router.post('/', (req, res) => {
+router.get('/:search', (req, res) => {
+  const search = req.params.search + '%';
+  console.log ('req.params.search=', search)
+  const queryText = 'SELECT * FROM person WHERE username LIKE $1;';
+  pool.query(queryText, [search])
+    .then((result) => {
+      res.send(result.rows);
+      console.log('result.rows:', result.rows);
+    }).catch((error) => {
+      console.log(error);
+    })
+});
 
-// });
-
-router.post('/:id', (req,res) => {
+router.post('/checkin/:id', (req,res) => {
   const venue_id = req.params.id;
   console.log(venue_id);
   const patron_id = req.user.id;
   console.log(patron_id);
   const queryText = 'INSERT INTO checkins (venue_person_id, patron_person_id) VALUES ($1, $2);';
   pool.query(queryText, [venue_id, patron_id])
+    .then(() => {
+      res.sendStatus(200);
+    }).catch(() => {
+      res.sendStatus(500);
+    })
+})
+
+router.post('/friend/:id', (req,res) => {
+  const patron_id = req.user.id;
+  console.log('patron id = ', patron_id);
+  const friend2_id = req.params.id;
+  console.log('friend2_id = ', friend2_id);
+  const queryText = 'INSERT INTO friendships (frienda, friendb) VALUES ($1, $2);';
+  pool.query(queryText, [patron_id, friend2_id])
     .then(() => {
       res.sendStatus(200);
     }).catch(() => {
@@ -43,17 +66,5 @@ router.delete('/', (req, res) => {
       res.sendStatus(500);
     })
 })
-
-// router.get('/checkin', (req, res) => {
-//   const patron_id = req.user.id;
-//   const queryText = 'SELECT * FROM checkins WHERE patron_person_id=$1;';
-//   pool.query(queryText, [patron_id])
-//     .then((result) => {
-//       res.send(result.rows)
-//       console.log('result.rows:', result.rows);
-//     }).catch((error) => {
-//       console.log(error);
-//     })
-// })
 
 module.exports = router;
