@@ -8,8 +8,18 @@ const venueData = (state = [], action) => {
     default:
         return state;
     }
-};    
+};
+
+const searchResults = (state = [], action) => {
+    switch (action.type) {
+        case PATRON_ACTIONS.STORE_SEARCH_RESULTS:
+            return action.payload || state;        
+    default:
+        return state;
+    }
+};
 
 export default combineReducers({
     venueData,
+    searchResults,
 })

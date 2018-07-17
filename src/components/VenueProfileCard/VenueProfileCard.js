@@ -51,10 +51,10 @@ class VenueProfileCard extends Component {
           />
           <CardContent>
           <Button onClick={this.openEditor} className={classes.editButton}>
-                <Icon>
-                    edit
-                </Icon>
-            </Button>
+            <Icon>
+              edit
+            </Icon>
+          </Button>
             <Typography gutterBottom variant="headline" component="h2">
               {this.props.venue.name}
             </Typography>    

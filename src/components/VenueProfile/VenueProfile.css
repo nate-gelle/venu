@@ -4,13 +4,10 @@
     background-color: #2380a5;
 }
 
-#username {
-    font-size: 14px;
+#logoutButton {
     float: right;
-    padding: 10px;
-    top: 0;
 }
 
-#logoutButton {
+#settingsButton {
     float: right;
 }

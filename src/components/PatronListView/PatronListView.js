@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {PATRON_ACTIONS} from '../../redux/actions/patronActions';
-import { triggerLogout } from '../../redux/actions/loginActions';
+import {USER_ACTIONS} from '../../redux/actions/userActions';
+import PatronSearch from '../PatronSearch/PatronSearch';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -12,11 +13,20 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import classnames from 'classnames';
+import './PatronListView.css';
+
+const mapStateToProps = state => ({
+  venues: state.patron.venueData,
+});
 
 const styles = theme => ({
+    settingsButton: {
+        float: 'left',
+    },
     card: {
         width: '100%',
     },
@@ -39,26 +49,35 @@ const styles = theme => ({
     },
 });
 
-const mapStateToProps = state => ({
-  venues: state.patron.venueData,
-});
-
 class PatronListView extends Component {
-    state = {expanded: false};
+    state = {
+        expanded: false,
+        open: false,
+    };
+
+    checkIn = (id, checkInId) => {
+        console.log('in checkIn, id=', id, checkInId);
+        if(checkInId == null){
+            this.props.dispatch({ type: PATRON_ACTIONS.CHECK_IN, payload: id });
+        }else if(id === checkInId){
+            this.props.dispatch({ type: PATRON_ACTIONS.CHECK_OUT })
+        }    
+    }
 
     handleExpandClick = () => {
         this.setState(state => ({ expanded: !state.expanded }));
-    };
+    }
+
+    openSettings = (event) => {
+        event.preventDefault();
+        this.props.history.push('psettings');
+    }
 
     componentDidMount(){
+        this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         this.props.dispatch({ type: PATRON_ACTIONS.PGET })
     }
 
-    logout = () => {
-        this.props.dispatch(triggerLogout());
-        this.props.history.push('login');
-    }
-  
     render () {
         const { classes } = this.props;
         let content = null;
@@ -71,10 +90,13 @@ class PatronListView extends Component {
         } else {  
             content = (
                 <div>
-                    <Button id="logoutButton" onClick={this.logout}>
-                        Log Out
+                    <Button onClick={this.openSettings} id="settingsButton" className={classes.settingsButton}>
+                        <Icon>
+                            settings
+                        </Icon>                
                     </Button>
-                    {this.props.venues.map((venue, i) => 
+                    <PatronSearch />   
+                    {this.props.venues.map((venue, i) =>
                         <div key={i}> 
                             <Card className={classes.card}>
                                 <CardMedia
@@ -92,7 +114,7 @@ class PatronListView extends Component {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="small" color="primary">Post</Button>
+                                    <Button onClick={() => this.checkIn(venue.person_id, venue.venue_person_id)} size="small" color="primary">{venue.venue_person_id === null? 'Check In' : 'Check Out' }</Button>
                                     <IconButton
                                         className={classnames(classes.expand, {
                                             [classes.expandOpen]: this.state.expanded,
@@ -121,7 +143,7 @@ class PatronListView extends Component {
                                     </CardContent>
                                 </Collapse>        
                             </Card>
-                        </div>)}
+                        </div>)}        
                 </div>
             );
         }
@@ -138,4 +160,4 @@ PatronListView.propTypes = {
   classes: PropTypes.object.isRequired,
 };
   
-  export default compose(withStyles(styles),connect(mapStateToProps))(PatronListView);
+export default compose(withStyles(styles),connect(mapStateToProps))(PatronListView);
