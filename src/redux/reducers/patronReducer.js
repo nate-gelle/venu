@@ -19,7 +19,17 @@ const searchResults = (state = [], action) => {
     }
 };
 
+const checkInData = (state = {}, action) => {
+    switch (action.type) {
+        case PATRON_ACTIONS.STORE_CHECKINS:
+            return action.payload;        
+    default:
+        return state;
+    }
+};
+
 export default combineReducers({
     venueData,
     searchResults,
+    checkInData,
 })

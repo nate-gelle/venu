@@ -3,7 +3,7 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 router.get('/venues', (req, res) => {
-  const queryText = 'SELECT * FROM venue LEFT JOIN checkins ON person_id = venue_person_id;';
+  const queryText = 'SELECT * FROM venue;';
   pool.query(queryText)
     .then((result) => {
       res.send(result.rows);
@@ -13,14 +13,30 @@ router.get('/venues', (req, res) => {
     })
 });
 
-router.get('/:search', (req, res) => {
+router.get('/search/:search', (req, res) => {
   const search = req.params.search + '%';
   console.log ('req.params.search=', search)
   const queryText = 'SELECT * FROM person WHERE username LIKE $1;';
   pool.query(queryText, [search])
     .then((result) => {
-      res.send(result.rows);
-      console.log('result.rows:', result.rows);
+      if (result.rows.length === 0){
+        res.send(null);
+      } else {
+        res.send(result.rows);
+        console.log('result.rows:', result.rows);
+      }
+    }).catch((error) => {
+      console.log(error);
+    })
+});
+
+router.get('/checkin', (req, res) => {
+  const patron_id = req.user.id;
+  const queryText = 'SELECT * FROM checkins WHERE patron_person_id=$1;';
+  pool.query(queryText, [patron_id])
+    .then((result) => {
+      console.log('checkin result.rows =', result.rows);
+      res.send(result.rows[0]);
     }).catch((error) => {
       console.log(error);
     })
@@ -28,9 +44,9 @@ router.get('/:search', (req, res) => {
 
 router.post('/checkin/:id', (req,res) => {
   const venue_id = req.params.id;
-  console.log(venue_id);
+  console.log('in checkin post, venue_id=', venue_id);
   const patron_id = req.user.id;
-  console.log(patron_id);
+  console.log('in checkin post, patron_id=', patron_id);
   const queryText = 'INSERT INTO checkins (venue_person_id, patron_person_id) VALUES ($1, $2);';
   pool.query(queryText, [venue_id, patron_id])
     .then(() => {
@@ -38,7 +54,7 @@ router.post('/checkin/:id', (req,res) => {
     }).catch(() => {
       res.sendStatus(500);
     })
-})
+});
 
 router.post('/friend/:id', (req,res) => {
   const patron_id = req.user.id;
@@ -52,11 +68,11 @@ router.post('/friend/:id', (req,res) => {
     }).catch(() => {
       res.sendStatus(500);
     })
-})
+});
 
-router.delete('/', (req, res) => {
+router.delete('/checkout', (req, res) => {
   const patron_id = req.user.id;
-  console.log(patron_id);
+  console.log('in delete checkin, patron_id =', patron_id);
   const queryText = 'DELETE FROM checkins WHERE patron_person_id=$1;';
   pool.query(queryText, [patron_id])
     .then(() => {
@@ -65,6 +81,6 @@ router.delete('/', (req, res) => {
     }).catch(() => {
       res.sendStatus(500);
     })
-})
+});
 
 module.exports = router;

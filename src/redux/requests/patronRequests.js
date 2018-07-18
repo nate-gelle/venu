@@ -7,6 +7,13 @@ export function getVenueData(action) {
         .catch(error => {throw error.response || error; });
 }
 
+export function getCheckInData(action) {
+    console.log('getCheckInData action:', action);
+    return axios.get('api/patron/checkin')
+        .then(result => result.data)
+        .catch(error => {throw error.response || error; });
+}
+
 export function postCheckIn(action) {
     console.log('postCheckIn action:', action);
     return axios.post(`api/patron/checkin/${action.payload}`)
@@ -18,7 +25,7 @@ export function postCheckIn(action) {
 
 export function checkOutReq() {
     console.log('in checkOutReq');
-    return axios.delete('api/patron')
+    return axios.delete('api/patron/checkout')
         .then(result => {
             console.log('successful delete');
         })
@@ -27,7 +34,7 @@ export function checkOutReq() {
 
 export function getSearchRequest(action) {
     console.log('getSearchRequest action:', action);
-    return axios.get(`api/patron/${action.payload}`)
+    return axios.get(`api/patron/search/${action.payload}`)
         .then((result) => {
             console.log('in getSearchReq, result:', result.data);
             return result.data;

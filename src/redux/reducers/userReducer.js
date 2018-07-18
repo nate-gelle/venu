@@ -15,7 +15,7 @@ const userType = (state = null, action) => {
 const userName = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
-      return action.user.username || state;
+      return action.user || state;
     case USER_ACTIONS.UNSET_USER:
       return null;
     default:
