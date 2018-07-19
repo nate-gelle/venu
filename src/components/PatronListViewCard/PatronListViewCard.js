@@ -16,7 +16,7 @@ import { withStyles } from '@material-ui/core/styles';
 import {PATRON_ACTIONS} from '../../redux/actions/patronActions';
 
 const mapStateToProps = state => ({
-    checkIns: state.patron.checkInData,
+    checkIn: state.patron.checkInData,
     user: state.user,
 });
 
@@ -55,26 +55,19 @@ class PatronListViewCard extends Component {
         this.setState(state => ({ expanded: !state.expanded }));
     }
 
-    checkForCheckIns = (venue_id) => {
-        console.log(venue_id, this.props.checkIns.venue_person_id, this.props.user.userName.id, this.props.checkIns.patron_person_id)
-        if(venue_id === this.props.checkIns.venue_person_id && this.props.user.userName.id === this.props.checkIns.patron_person_id){
-            console.log('checkForCheckIns returning true');
+    checkForCheckIn = (venue_id) => {
+        console.log(venue_id, this.props.checkIn.venue_person_id, this.props.user.userName.id, this.props.checkIn.patron_person_id)
+        if(venue_id === this.props.checkIn.venue_person_id && this.props.user.userName.id === this.props.checkIn.patron_person_id){
+            console.log('checkForCheckIn returning true');
             return true;
         } else {
-            console.log('checkForCheckIns returning false');
+            console.log('checkForCheckIn returning false');
             return false;
         }
     }
 
     checkIn = (venue_id) => {
-        // console.log('in checkIn, id=', id, checkInId);
-        // if(checkInId == null){
-        //     this.props.dispatch({ type: PATRON_ACTIONS.CHECK_IN, payload: id });
-        // }else if(id === checkInId){
-        //     this.props.dispatch({ type: PATRON_ACTIONS.CHECK_OUT })
-        // }
-        
-        if(this.checkForCheckIns(venue_id)){
+        if(this.checkForCheckIn(venue_id)){
             this.props.dispatch({ type: PATRON_ACTIONS.CHECK_OUT });
         }else{
             this.props.dispatch({ type: PATRON_ACTIONS.CHECK_IN, payload: venue_id });
@@ -100,7 +93,7 @@ class PatronListViewCard extends Component {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button onClick={() => this.checkIn(this.props.venue.person_id)} size="small" color="primary">{this.checkForCheckIns(this.props.venue.person_id)? 'Check Out' : 'Check In' }</Button>
+                        <Button onClick={() => this.checkIn(this.props.venue.person_id)} size="small" color="primary">{this.checkForCheckIn(this.props.venue.person_id)? 'Check Out' : 'Check In' }</Button>
                         <IconButton
                             className={classnames(classes.expand, {
                                 [classes.expandOpen]: this.state.expanded,

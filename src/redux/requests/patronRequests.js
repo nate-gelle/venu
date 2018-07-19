@@ -14,6 +14,13 @@ export function getCheckInData(action) {
         .catch(error => {throw error.response || error; });
 }
 
+export function getCheckInsData(action) {
+    console.log('getCheckInsData action:', action);
+    return axios.get('api/patron/checkins')
+        .then(result => result.data)
+        .catch(error => {throw error.response || error; });
+}
+
 export function postCheckIn(action) {
     console.log('postCheckIn action:', action);
     return axios.post(`api/patron/checkin/${action.payload}`)

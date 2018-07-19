@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-
+import Typography from '@material-ui/core/Typography';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { triggerLogout } from '../../redux/actions/loginActions';
 
@@ -31,6 +31,7 @@ class PatronSettings extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
+                    <Typography>{this.props.user.userName.username}</Typography>
                     <Button id="logoutButton" onClick={this.logout}>
                         Log Out
                     </Button>

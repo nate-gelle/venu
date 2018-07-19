@@ -11,7 +11,7 @@ import WelcomePage from './components/WelcomePage/WelcomePage';
 import RegisterPatron from './components/RegisterPatron/RegisterPatron';
 import RegisterVenue from './components/RegisterVenue/RegisterVenue';
 import PatronProfile from './components/PatronProfile/PatronProfile';
-import PatronListView from './components/PatronListView/PatronListView';
+import PatronHome from './components/PatronHome/PatronHome';
 import PatronSettings from './components/PatronSettings/PatronSettings';
 import VenueProfile from './components/VenueProfile/VenueProfile';
 import VenueEditor from './components/VenueEditor/VenueEditor';
@@ -43,8 +43,8 @@ const App = () => (
           component={RegisterVenue}
         />
         <Route
-          path="/plistview"
-          component={PatronListView}
+          path="/phome"
+          component={PatronHome}
         />
         <Route
           path="/pprofile"

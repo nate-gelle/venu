@@ -42,6 +42,17 @@ router.get('/checkin', (req, res) => {
     })
 });
 
+router.get('/checkins', (req, res) => {
+  const queryText = 'SELECT person.username, venue.name FROM checkins INNER JOIN person ON checkins.patron_person_id=person.id INNER JOIN venue ON checkins.venue_person_id=venue.person_id;';
+  pool.query(queryText)
+    .then((result) => {
+      console.log('checkins result.rows =', result.rows);
+      res.send(result.rows);
+    }).catch((error) => {
+      console.log(error);
+    })
+});
+
 router.post('/checkin/:id', (req,res) => {
   const venue_id = req.params.id;
   console.log('in checkin post, venue_id=', venue_id);

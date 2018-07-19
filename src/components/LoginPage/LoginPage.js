@@ -32,7 +32,7 @@ class LoginPage extends Component {
       this.props.history.push('/vprofile');
     } 
     else if (nextProps.user.userName != null && nextProps.user.userType === 'patron') {
-        this.props.history.push('/plistview')
+        this.props.history.push('/phome');
     }
   }
 
