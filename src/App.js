@@ -5,7 +5,6 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom';
-
 import LoginPage from './components/LoginPage/LoginPage';
 import WelcomePage from './components/WelcomePage/WelcomePage';
 import RegisterPatron from './components/RegisterPatron/RegisterPatron';
@@ -17,7 +16,7 @@ import VenueProfile from './components/VenueProfile/VenueProfile';
 import VenueEditor from './components/VenueEditor/VenueEditor';
 import VenueSettings from './components/VenueSettings/VenueSettings';
 import InfoPage from './components/InfoPage/InfoPage';
-
+import GoogleMaps from './components/GoogleMaps/GoogleMaps';
 import './styles/main.css';
 import 'typeface-roboto';
 
@@ -69,6 +68,10 @@ const App = () => (
         <Route
           path="/info"
           component={InfoPage}
+        />
+        <Route
+          path="/maps"
+          component={GoogleMaps}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />

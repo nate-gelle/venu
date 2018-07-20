@@ -48,10 +48,10 @@ class PatronSearch extends Component {
         return (
             <div>
                 <Button onClick={this.openSearch} id="searchButton">
-                        <Icon>
-                            search
-                        </Icon>                
-                    </Button>
+                    <Icon>
+                        search
+                    </Icon>                
+                </Button>
                 <Dialog
                 open={this.state.open}
                 onClose={this.handleClose}
@@ -67,21 +67,17 @@ class PatronSearch extends Component {
                         fullWidth
                         onChange={this.runSearch}
                         />
-                        <DialogContentText>
-
-                        </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
-                        Cancel
-                        </Button>
-                        <Button onClick={this.handleClose} color="primary">
-                        Subscribe
+                            Back
                         </Button>
                     </DialogActions>
-                    <ul>
-                        {this.props.patrons.map((patron, i) => <li key={i}>{patron.username}<Button onClick={() => this.addFriend(patron.id)}>Add</Button></li>)}
-                    </ul>
+                    <DialogContentText>
+                        <ul>
+                            {this.props.patrons.map((patron, i) => <li key={i}>{patron.username}<Button onClick={() => this.addFriend(patron.id)}><Icon>person_add</Icon></Button></li>)}
+                        </ul>
+                    </DialogContentText>    
                 </Dialog>
             </div>
         );

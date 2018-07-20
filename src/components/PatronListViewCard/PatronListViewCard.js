@@ -14,6 +14,7 @@ import {compose} from 'redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import {PATRON_ACTIONS} from '../../redux/actions/patronActions';
+import GoogleMaps from '../GoogleMaps/GoogleMaps';
 
 const mapStateToProps = state => ({
     checkIn: state.patron.checkInData,
@@ -75,53 +76,68 @@ class PatronListViewCard extends Component {
     }
 
     render () {
+        let content = null;
         const { classes } = this.props;
-        return (
-                <Card className={classes.card}>
-                    <CardMedia
-                        className={classes.media}
-                        component="img"
-                        src={this.props.venue.image_url}
-                        title="venueCover"
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="headline" component="h2">
-                        {this.props.venue.name}
-                        </Typography>
-                        <Typography className={classes.distance} component="p">
-                            [venue.distance]
-                        </Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button onClick={() => this.checkIn(this.props.venue.person_id)} size="small" color="primary">{this.checkForCheckIn(this.props.venue.person_id)? 'Check Out' : 'Check In' }</Button>
-                        <IconButton
-                            className={classnames(classes.expand, {
-                                [classes.expandOpen]: this.state.expanded,
-                            })}
-                            onClick={this.handleExpandClick}
-                            aria-expanded={this.state.expanded}
-                            aria-label="Show more">
-                            <ExpandMoreIcon />
-                        </IconButton>
-                    </CardActions>
-                    <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+        if (this.props.user.userName === null){
+            content = (
+                null
+            );
+        } else {  
+            content = (
+                <div>
+                    <Card className={classes.card}>
+                        <CardMedia
+                            className={classes.media}
+                            component="img"
+                            src={this.props.venue.image_url}
+                            title="venueCover"
+                        />
                         <CardContent>
-                        <Typography component="ul">
-                            <li>{this.props.venue.category}</li>
-                            <br/>
-                            <li>{this.props.venue.url}</li>
-                            <br/>
-                            <li>{this.props.venue.address}</li>
-                            <br/>
-                            <li>{this.props.venue.phone}</li>
-                            <br/>
-                            <li>{this.props.venue.outdoor}</li>
-                            <br/>
-                            <li>{this.props.venue.price}</li>
-                        </Typography>
+                            <Typography gutterBottom variant="headline" component="h2">
+                            {this.props.venue.name}
+                            </Typography>
+                            <Typography className={classes.distance} component="p">
+                                [venue.distance]
+                            </Typography>
                         </CardContent>
-                    </Collapse>        
-                </Card>
+                        <CardActions>
+                            <Button onClick={() => this.checkIn(this.props.venue.person_id)} size="small" color="primary">{this.checkForCheckIn(this.props.venue.person_id)? 'Check Out' : 'Check In' }</Button>
+                            <IconButton
+                                className={classnames(classes.expand, {
+                                    [classes.expandOpen]: this.state.expanded,
+                                })}
+                                onClick={this.handleExpandClick}
+                                aria-expanded={this.state.expanded}
+                                aria-label="Show more">
+                                <ExpandMoreIcon />
+                            </IconButton>
+                        </CardActions>
+                        <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+                            <CardContent>
+                                <Typography component="ul">
+                                    <li>{this.props.venue.category}</li>
+                                    <br/>
+                                    <li>{this.props.venue.url}</li>
+                                    <br/>
+                                    <li>{this.props.venue.address}</li>
+                                    <br/>
+                                    <li>{this.props.venue.phone}</li>
+                                    <br/>
+                                    <li>{this.props.venue.outdoor}</li>
+                                    <br/>
+                                    <li>{this.props.venue.price}</li>
+                                </Typography>
+                            </CardContent>
+                            <GoogleMaps address={this.props.venue.address}/>
+                        </Collapse>        
+                    </Card>     
+                </div>
+            );
+        }
+        return (
+            <div>
+                { content }
+            </div>    
         );
     }
 }
