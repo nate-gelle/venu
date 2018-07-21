@@ -2,6 +2,29 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import LogInLinkBar from '../LogInLinkBar/LogInLinkBar';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import {compose} from 'redux';
+
+const styles = theme => ({
+  venu: {
+    height: "300px",
+    lineHeight: "300px",
+    width: "100%",
+    fontSize: "80px",
+    backgroundColor: "rgb(61, 96, 212)",
+    color: "white",
+    padding: "20px 0",
+  },
+  buttons: {
+    height: "100px",
+    lineHeight: "100px",
+    width: "50%",
+    display: "block",
+    margin: "auto",
+  }
+});
 
 class WelcomePage extends Component {
 
@@ -10,11 +33,13 @@ class WelcomePage extends Component {
     }
 
     render() {
+      const { classes } = this.props;
       return(
         <div>
-          <div>
-            <Button onClick={this.handleClick('regpatron')}>Patron</Button>
-            <Button onClick={this.handleClick('regvenue')}>Venue</Button>
+          <Typography align="center" variant="headline" className={classes.venu}>Venu</Typography>
+          <div className={classes.buttons}>
+            <Button variant="contained" onClick={this.handleClick('regpatron')}>Patron</Button>
+            <Button variant="contained" onClick={this.handleClick('regvenue')}>Venue</Button>
           </div>
           <LogInLinkBar />
         </div>
@@ -22,4 +47,8 @@ class WelcomePage extends Component {
     }
 }
 
-export default connect()(WelcomePage);
+WelcomePage.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default compose(withStyles(styles),connect())(WelcomePage);

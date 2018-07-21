@@ -38,11 +38,7 @@ class PatronListView extends Component {
         const { classes } = this.props;
         let content = null;
         if (this.props.venues === []){
-            content = (
-                <div>
-                    <p>Loading</p>
-                </div>
-            );
+            content = (null);
         } else {  
             content = (
                 <div>   

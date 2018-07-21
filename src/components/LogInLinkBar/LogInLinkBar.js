@@ -5,12 +5,15 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import 'typeface-roboto';
 import '../LogInLinkBar/LogInLinkBar.css';
 
 const styles = {
   root: {
-    flexGrow: 1,
+    position: "absolute",
+    bottom: "0px",
+    width: "100%",
   },
 };
 
@@ -18,14 +21,14 @@ function LogInLinkBar(props) {
     const { classes } = props;
     return (
       <div className={classes.root}>
-        <AppBar id="appbar" position="static" color="default">
+        <AppBar id="appbar" position="static" color="default" align="center">
           <Toolbar>
-            <Typography variant="title" color="inherit">
+            <Typography variant="subheading" color="inherit">
               Already have an account? 
             </Typography>
-            <Typography variant="title" color="inherit">
-              <Link to="/login"> Sign in.</Link> 
-            </Typography>
+            <Button color="inherit">
+              <Link to="/login"> sign in</Link> 
+            </Button>
           </Toolbar>
         </AppBar>
       </div>

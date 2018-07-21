@@ -26,7 +26,7 @@ function RegistrationLinkBar(props) {
             <Typography id="question" variant="subheading" color="inherit" display="inline">
               New to Venu?  
             </Typography> 
-            <Button display="inline">
+            <Button color="inherit">
               <Link to="/welcome">sign up</Link>
             </Button>
           </Toolbar>

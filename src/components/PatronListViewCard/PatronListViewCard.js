@@ -26,7 +26,7 @@ const styles = theme => ({
         width: '100%',
     },
     media: {
-        height: '25%',
+        height: '200px',
     },
     distance: {
         float: 'right',
@@ -79,10 +79,8 @@ class PatronListViewCard extends Component {
         let content = null;
         const { classes } = this.props;
         if (this.props.user.userName === null){
-            content = (
-                null
-            );
-        } else {  
+            content = (null);
+        } else {
             content = (
                 <div>
                     <Card className={classes.card}>
@@ -96,9 +94,9 @@ class PatronListViewCard extends Component {
                             <Typography gutterBottom variant="headline" component="h2">
                             {this.props.venue.name}
                             </Typography>
-                            <Typography className={classes.distance} component="p">
+                            {/* <Typography className={classes.distance} component="p">
                                 [venue.distance]
-                            </Typography>
+                            </Typography> */}
                         </CardContent>
                         <CardActions>
                             <Button onClick={() => this.checkIn(this.props.venue.person_id)} size="small" color="primary">{this.checkForCheckIn(this.props.venue.person_id)? 'Check Out' : 'Check In' }</Button>
@@ -130,7 +128,7 @@ class PatronListViewCard extends Component {
                             </CardContent>
                             <GoogleMaps address={this.props.venue.address}/>
                         </Collapse>        
-                    </Card>     
+                    </Card>      
                 </div>
             );
         }

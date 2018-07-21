@@ -28,7 +28,7 @@ const styles = theme => ({
           },    
     },
     tabs: {
-        display: 'block',
+        display: 'inline-block',
         margin: 'auto',
     }
 });
@@ -58,34 +58,22 @@ class PatronHome extends Component {
         this.setState({ value });
     };
 
-    openSettings = (event) => {
-        event.preventDefault();
-        this.props.history.push('psettings');
-    }
-
     render() {
         const { classes } = this.props;
         const { value } = this.state;
         return (
-            <div>
-                <div className={classes.root}>
-                    <AppBar position="static">
-                        <PatronSearch />
-                        <PatronSettings history={this.props.history} user={this.props.user} />
+            <div className={classes.root}>
+                <AppBar position="static">
+                    <PatronSearch />
                         <Tabs value={value} onChange={this.handleChange} className={classes.tabs}>
                             <Tab icon={<Icon>list</Icon>} label="List"/>
                             <Tab icon={<Icon>people</Icon>} label="Social" />
                         </Tabs>
-                        {/* <Button onClick={this.openSettings} className={classes.settingsButton}>
-                            <Icon>
-                                settings
-                            </Icon>                
-                        </Button> */}
-                    </AppBar>
-                    {value === 0 && <TabContainer><div><PatronListView /></div></TabContainer>}
-                    {value === 1 && <TabContainer><div><PatronSocialView /></div></TabContainer>}
-                </div>
-            </div>    
+                    <PatronSettings history={this.props.history} user={this.props.user} />
+                </AppBar>
+                {value === 0 && <TabContainer><div><PatronListView /></div></TabContainer>}
+                {value === 1 && <TabContainer><div><PatronSocialView /></div></TabContainer>}
+            </div>  
         );
     }
 }

@@ -1,20 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import {compose} from 'redux';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 // import Typography from '@material-ui/core/Typography';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { triggerLogout } from '../../redux/actions/loginActions';
 // import {PATRON_ACTIONS} from '../../redux/actions/patronActions';
-import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
+import SettingsIcon from '@material-ui/icons/Settings';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-// const mapStateToProps = state => ({
-//     user: state.user,
-// });
+const mapStateToProps = state => ({
+    user: state.user,
+});
+
+const styles = theme => ({
+    settingsButton: {
+        color: 'white',
+        display: 'inline',
+    }
+});
 
 class PatronSettings extends Component {
     constructor(props){
@@ -48,13 +59,12 @@ class PatronSettings extends Component {
     }
     
     render() {
+        const { classes } = this.props;
         return (
             <div>
-                <Button onClick={this.openSettings} id="settingsButton">
-                    <Icon>
-                        settings
-                    </Icon>                
-                </Button>
+                <IconButton onClick={this.openSettings} className={classes.settingsButton} id="settingsButton">
+                    <SettingsIcon />
+                </IconButton>                
                 <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Settings</DialogTitle>
                     <DialogContent>
@@ -73,4 +83,8 @@ class PatronSettings extends Component {
     }
 }
 
-export default connect()(PatronSettings);
+PatronSettings.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default compose(withStyles(styles),connect(mapStateToProps))(PatronSettings);
