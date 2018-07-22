@@ -33,13 +33,14 @@ class GoogleMaps extends Component {
     }
     
     componentDidMount() {
-        this.delayedShowMarker()
+        this.delayedShowMarker();
+        console.log('address passed to maps:', this.state.address);
     }
 
     delayedShowMarker = () => {
         setTimeout(() => {
         this.setState({ isMarkerShown: true })
-        }, 3000)
+        }, 1000)
     }
 
     handleMarkerClick = () => {

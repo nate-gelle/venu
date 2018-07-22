@@ -6,13 +6,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import 'typeface-roboto';
-import '../LogInLinkBar/LogInLinkBar.css';
 
 const styles = {
   root: {
-    position: "absolute",
-    bottom: "0px",
+    position: "fixed",
+    bottom: 0,
+    left: 0,
     width: "100%",
   },
 };
@@ -23,10 +22,10 @@ function LogInLinkBar(props) {
       <div className={classes.root}>
         <AppBar id="appbar" position="static" color="default" align="center">
           <Toolbar>
-            <Typography variant="subheading" color="inherit">
+            <Typography variant="subheading">
               Already have an account? 
             </Typography>
-            <Button color="inherit">
+            <Button>
               <Link to="/login"> sign in</Link> 
             </Button>
           </Toolbar>

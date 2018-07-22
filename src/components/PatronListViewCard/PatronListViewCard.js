@@ -7,6 +7,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import PlaceIcon from '@material-ui/icons/Place';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import classnames from 'classnames';
 import {connect} from 'react-redux';
@@ -99,7 +100,7 @@ class PatronListViewCard extends Component {
                             </Typography> */}
                         </CardContent>
                         <CardActions>
-                            <Button onClick={() => this.checkIn(this.props.venue.person_id)} size="small" color="primary">{this.checkForCheckIn(this.props.venue.person_id)? 'Check Out' : 'Check In' }</Button>
+                            <Button onClick={() => this.checkIn(this.props.venue.person_id)} size="small" color="primary"><PlaceIcon />{this.checkForCheckIn(this.props.venue.person_id)? 'Check Out' : 'Check In' }</Button>
                             <IconButton
                                 className={classnames(classes.expand, {
                                     [classes.expandOpen]: this.state.expanded,

@@ -6,7 +6,6 @@ import {USER_ACTIONS} from '../../redux/actions/userActions';
 import PatronListViewCard from '../PatronListViewCard/PatronListViewCard';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import './PatronListView.css';
 
 const mapStateToProps = state => ({
   venues: state.patron.venueData,

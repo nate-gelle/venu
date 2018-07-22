@@ -27,9 +27,11 @@ const styles = theme => ({
     lineHeight: "300px",
     width: "100%",
     fontSize: "80px",
-    backgroundColor: "rgb(61, 96, 212)",
+    backgroundColor: "slategrey",
     color: "white",
-    padding: "20px 0",
+    position: "static",
+    top: 0,
+    left: 0,
   },
 });
 
@@ -74,25 +76,10 @@ class LoginPage extends Component {
     });
   }
 
-  // renderAlert() {
-  //   if (this.props.login.message !== '') {
-  //     return (
-  //       <h2
-  //         className="alert"
-  //         role="alert"
-  //       >
-  //         { this.props.login.message }
-  //       </h2>
-  //     );
-  //   }
-  //   return (<span />);
-  // }
-
   render() {
     const { classes } = this.props;
     return (
       <div>
-        {/* { this.renderAlert() } */}
         <Typography align="center" variant="headline" className={classes.venu}>Venu</Typography>
         <FormControl onSubmit={this.login} className={classes.form}>
           <TextField
@@ -116,7 +103,7 @@ class LoginPage extends Component {
           />
           <br/>
           <br/>
-          <Button onClick={this.login} variant="contained">Login</Button>
+          <Button onSubmit={this.login} onClick={this.login} variant="contained">Login</Button>
         </FormControl>
         <RegistrationLinkBar />
       </div>

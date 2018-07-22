@@ -3,9 +3,9 @@ import {connect} from 'react-redux';
 import {compose} from 'redux';
 import PatronListView from '../PatronListView/PatronListView';
 import PatronSocialView from '../PatronSocialView/PatronSocialView';
+import GoogleMaps from '../PatronMapView/TestGoogleMap';
 import PatronSearch from '../PatronSearch/PatronSearch';
 import PatronSettings from '../PatronSettings/PatronSettings';
-// import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
@@ -20,12 +20,19 @@ const mapStateToProps = state => ({
 });
 
 const styles = theme => ({
-    settingsButton: {
-        marginRight: '0%',
     root: {
-            flexGrow: 1,
-            backgroundColor: theme.palette.background.paper,
-          },    
+        flexGrow: 0,
+        backgroundColor: theme.palette.background.paper,
+    },
+    appbar: {
+        backgroundColor: 'slategrey',
+        position: 'static',
+        top: 0,
+        left: 0,
+        margin: 'auto',
+    },
+    search: {
+        display: 'inline-block',
     },
     tabs: {
         display: 'inline-block',
@@ -63,16 +70,18 @@ class PatronHome extends Component {
         const { value } = this.state;
         return (
             <div className={classes.root}>
-                <AppBar position="static">
-                    <PatronSearch />
+                <AppBar className={classes.appbar}>
+                    <PatronSearch className={classes.search}/>
                         <Tabs value={value} onChange={this.handleChange} className={classes.tabs}>
                             <Tab icon={<Icon>list</Icon>} label="List"/>
+                            <Tab icon={<Icon>map</Icon>} label="Map" />
                             <Tab icon={<Icon>people</Icon>} label="Social" />
                         </Tabs>
-                    <PatronSettings history={this.props.history} user={this.props.user} />
+                    <PatronSettings className={classes.settings} history={this.props.history} user={this.props.user} />
                 </AppBar>
                 {value === 0 && <TabContainer><div><PatronListView /></div></TabContainer>}
-                {value === 1 && <TabContainer><div><PatronSocialView /></div></TabContainer>}
+                {value === 1 && <TabContainer><div><GoogleMaps /></div></TabContainer>}
+                {value === 2 && <TabContainer><div><PatronSocialView /></div></TabContainer>}
             </div>  
         );
     }

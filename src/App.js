@@ -6,7 +6,6 @@ import RegisterPatron from './components/RegisterPatron/RegisterPatron';
 import RegisterVenue from './components/RegisterVenue/RegisterVenue';
 import PatronProfile from './components/PatronProfile/PatronProfile';
 import PatronHome from './components/PatronHome/PatronHome';
-import PatronSettings from './components/PatronSettings/PatronSettings';
 import VenueProfile from './components/VenueProfile/VenueProfile';
 import VenueEditor from './components/VenueEditor/VenueEditor';
 import VenueSettings from './components/VenueSettings/VenueSettings';
@@ -43,10 +42,6 @@ const App = () => (
           component={PatronProfile}
         />
         <Route
-          path="/psettings"
-          component={PatronSettings}
-        />
-        <Route
           path="/vprofile"
           component={VenueProfile}
         />
@@ -60,7 +55,6 @@ const App = () => (
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />
-
       </Switch>
     </Router>
   </div>

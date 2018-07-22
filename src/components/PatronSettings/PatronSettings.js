@@ -9,6 +9,7 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { triggerLogout } from '../../redux/actions/loginActions';
 // import {PATRON_ACTIONS} from '../../redux/actions/patronActions';
 import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -74,7 +75,7 @@ class PatronSettings extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.logout} color="primary" id="logoutButton">
-                            logout
+                            <Icon>meeting_room</Icon>logout
                         </Button>
                     </DialogActions>
                 </Dialog>

@@ -6,13 +6,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import 'typeface-roboto';
-import '../RegistrationLinkBar/RegistrationLinkBar.css';
 
 const styles = {
   root: {
-    position: "absolute",
-    bottom: "0px",
+    position: "fixed",
+    bottom: 0,
+    left: 0,
     width: "100%",
   },
 };
