@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
-import {PATRON_ACTIONS} from '../../redux/actions/patronActions';
-import {USER_ACTIONS} from '../../redux/actions/userActions';
 import PatronListViewCard from '../PatronListViewCard/PatronListViewCard';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -25,12 +23,6 @@ class PatronListView extends Component {
         this.state = {
             open: false,
         };
-    }
-
-    componentDidMount(){
-        this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
-        this.props.dispatch({ type: PATRON_ACTIONS.PGET });
-        this.props.dispatch({ type: PATRON_ACTIONS.FETCH_CHECKIN });
     }
 
     render () {

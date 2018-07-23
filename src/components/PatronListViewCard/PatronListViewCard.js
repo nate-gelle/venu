@@ -15,7 +15,7 @@ import {compose} from 'redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import {PATRON_ACTIONS} from '../../redux/actions/patronActions';
-import GoogleMaps from '../GoogleMaps/GoogleMaps';
+import TestGoogleMap from '../PatronMapView/TestGoogleMap';
 
 const mapStateToProps = state => ({
     checkIn: state.patron.checkInData,
@@ -127,7 +127,7 @@ class PatronListViewCard extends Component {
                                     <li>{this.props.venue.price}</li>
                                 </Typography>
                             </CardContent>
-                            <GoogleMaps address={this.props.venue.address}/>
+                            <TestGoogleMap latitude={this.props.venue.lat} longitude={this.props.venue.long}/>
                         </Collapse>        
                     </Card>      
                 </div>

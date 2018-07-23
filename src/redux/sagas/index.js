@@ -3,7 +3,7 @@ import userSaga from './userSaga';
 import loginSaga from './loginSaga';
 import venueSaga from './venueSaga';
 import patronSaga from './patronSaga';
-import mapSaga from './mapSaga';
+// import mapSaga from './mapSaga';
 
 
 export default function* rootSaga() {
@@ -12,7 +12,7 @@ export default function* rootSaga() {
     loginSaga(),
     venueSaga(),
     patronSaga(),
-    mapSaga(),
+    // mapSaga(),
     // watchIncrementAsync()
   ]);
 }

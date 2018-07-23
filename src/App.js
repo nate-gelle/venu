@@ -4,7 +4,6 @@ import LoginPage from './components/LoginPage/LoginPage';
 import WelcomePage from './components/WelcomePage/WelcomePage';
 import RegisterPatron from './components/RegisterPatron/RegisterPatron';
 import RegisterVenue from './components/RegisterVenue/RegisterVenue';
-import PatronProfile from './components/PatronProfile/PatronProfile';
 import PatronHome from './components/PatronHome/PatronHome';
 import VenueProfile from './components/VenueProfile/VenueProfile';
 import VenueEditor from './components/VenueEditor/VenueEditor';
@@ -36,10 +35,6 @@ const App = () => (
         <Route
           path="/phome"
           component={PatronHome}
-        />
-        <Route
-          path="/pprofile"
-          component={PatronProfile}
         />
         <Route
           path="/vprofile"

@@ -1,11 +1,7 @@
 import axios from 'axios';
 
-export function getMapData() {
-    const config = {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-      };
-      return axios.get('api/map', config)
-        .then(response => response.data)
-        .catch((error) => { throw error; });
+export function getVenueLatLong(venues) {
+  return axios.post('api/map/', venues)
+  .then(result => result.data)
+  .catch(error => {throw error.response || error; });
 }

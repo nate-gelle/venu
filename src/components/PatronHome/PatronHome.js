@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {compose} from 'redux';
 import PatronListView from '../PatronListView/PatronListView';
 import PatronSocialView from '../PatronSocialView/PatronSocialView';
-import GoogleMaps from '../PatronMapView/TestGoogleMap';
+import PatronMapView from '../PatronMapView/PatronMapView';
 import PatronSearch from '../PatronSearch/PatronSearch';
 import PatronSettings from '../PatronSettings/PatronSettings';
 import Icon from '@material-ui/core/Icon';
@@ -13,9 +13,12 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import {PATRON_ACTIONS} from '../../redux/actions/patronActions';
+import {USER_ACTIONS} from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
     patrons: state.patron.searchResults,
+    venues: state.patron.venueData,
     user: state.user,
 });
 
@@ -60,6 +63,11 @@ class PatronHome extends Component {
         };
     }
     
+    componentDidMount(){
+        this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
+        this.props.dispatch({ type: PATRON_ACTIONS.PGET });
+        this.props.dispatch({ type: PATRON_ACTIONS.FETCH_CHECKIN });
+    }
 
     handleChange = (event, value) => {
         this.setState({ value });
@@ -80,7 +88,7 @@ class PatronHome extends Component {
                     <PatronSettings className={classes.settings} history={this.props.history} user={this.props.user} />
                 </AppBar>
                 {value === 0 && <TabContainer><div><PatronListView /></div></TabContainer>}
-                {value === 1 && <TabContainer><div><GoogleMaps /></div></TabContainer>}
+                {value === 1 && <TabContainer><div><PatronMapView /></div></TabContainer>}
                 {value === 2 && <TabContainer><div><PatronSocialView /></div></TabContainer>}
             </div>  
         );

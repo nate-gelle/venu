@@ -4,7 +4,7 @@ import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 
 const mapStateToProps = state => ({
     user: state.user,
-    // reduxState: state,
+    venues: state.patron.venueData,
 });
 
 // const API_KEY = process.env.GOOGLE_MAPS_API_KEY;
@@ -14,19 +14,19 @@ class MultiVenueMapContainer extends Component {
         super(props);
         this.state = {
             latLng: {
-                lat: 44.986656,
-                lng: -93.258133,
+                lat: 44.978041, 
+                lng: -93.263187,
             },
-            zoom: 11,
+            zoom: 12,
         };
     }
 
     render() {
 
-        let venues = this.props.reduxState.mapData.mapData;
-        let placeDisplayOnMarker = venues.map((venue, i) => {
+        let venues = this.props.venues;
+        let venueMarkers = venues.map((venue, i) => {
             return (
-                <Marker key={i} position={{ lat: venue.lat, lng: venue.lng }} icon={venue.marker} />
+                <Marker key={i} position={{ lat: venue.lat, lng: venue.long }}/>
             )
         });
 
@@ -38,7 +38,7 @@ class MultiVenueMapContainer extends Component {
                     zoom={this.state.zoom}
                     initialCenter={this.state.latLng}
                 >
-                    {placeDisplayOnMarker}
+                    {venueMarkers}
                 </Map>
             </div>
         )
@@ -49,4 +49,4 @@ const connectToGoogleMaps = GoogleApiWrapper({
     apiKey: ('AIzaSyDSEgfxONgI6yzRnVIaEuQOrxW_xiz8gPk')
 })(MultiVenueMapContainer)
 
-export default connect(mapStateToProps)(connectToGoogleMaps)
+export default connect(mapStateToProps)(connectToGoogleMaps);

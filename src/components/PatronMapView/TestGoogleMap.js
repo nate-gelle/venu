@@ -1,9 +1,15 @@
 import React, {Component} from "react";
 import { compose, withProps } from "recompose";
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import { connect } from 'react-redux';
 
 // const key = process.env.GOOGLE_MAPS_API_KEY;
 // console.log(key);
+
+const mapStateToProps = state => ({
+    user: state.user,
+    venues: state.patron.venueData,
+});
 
 const MyMapComponent = compose(
   withProps({
@@ -17,24 +23,24 @@ const MyMapComponent = compose(
 )((props) =>
   <GoogleMap
     defaultZoom={17}
-    defaultCenter={{ lat: 44.978041, lng: -93.263187 }}
+    defaultCenter={{ lat: props.latitude, lng: props.longitude }}
   >
-    {props.isMarkerShown && <Marker position={{ lat: 44.978041, lng: -93.263187 }} onClick={props.onMarkerClick} />}
+    {props.isMarkerShown && <Marker position={{ lat: props.latitude, lng: props.longitude }} onClick={props.onMarkerClick} />}
   </GoogleMap>
 )
 
-class GoogleMaps extends Component {
+class TestGoogleMap extends Component {
     constructor(props){
         super(props);
         this.state = {
             isMarkerShown: false,
-            address: this.props.address,
+            latitude: this.props.latitude,
+            longitude: this.props.longitude,
         }
     }
     
     componentDidMount() {
         this.delayedShowMarker();
-        console.log('address passed to maps:', this.state.address);
     }
 
     delayedShowMarker = () => {
@@ -53,9 +59,11 @@ class GoogleMaps extends Component {
         <MyMapComponent
             isMarkerShown={this.state.isMarkerShown}
             onMarkerClick={this.handleMarkerClick}
+            latitude={this.state.latitude}
+            longitude={this.state.longitude}
         />
         )
     }
 }
 
-export default compose(withProps())(GoogleMaps);
+export default compose(withProps(), connect(mapStateToProps))(TestGoogleMap);
