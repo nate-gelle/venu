@@ -1,12 +1,15 @@
 const express = require('express');
 const pool = require('../modules/pool');
+const addLatLong = require('../modules/addLatLong');
 const router = express.Router();
 
 router.get('/venues', (req, res) => {
   const queryText = 'SELECT * FROM venue;';
   pool.query(queryText)
-    .then((result) => {
-      res.send(result.rows);
+    .then(async (result) => {
+      let latLong = await addLatLong(result.rows);
+        console.log('latLong', latLong);
+        res.send(latLong);
       console.log('result.rows:', result.rows);
     }).catch((error) => {
       console.log(error);
