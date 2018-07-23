@@ -24,23 +24,22 @@ const mapStateToProps = state => ({
 
 const styles = theme => ({
     root: {
-        flexGrow: 0,
+        flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
     },
     appbar: {
         backgroundColor: 'slategrey',
         position: 'static',
         top: 0,
-        left: 0,
-        margin: 'auto',
+        width: '100%',
     },
     search: {
-        display: 'inline-block',
+        width: '15px',
     },
     tabs: {
-        display: 'inline-block',
+        display: 'inline',
         margin: 'auto',
-    }
+    },
 });
 
 function TabContainer(props){
@@ -79,13 +78,13 @@ class PatronHome extends Component {
         return (
             <div className={classes.root}>
                 <AppBar className={classes.appbar}>
-                    <PatronSearch className={classes.search}/>
-                        <Tabs value={value} onChange={this.handleChange} className={classes.tabs}>
-                            <Tab icon={<Icon>list</Icon>} label="List"/>
-                            <Tab icon={<Icon>map</Icon>} label="Map" />
-                            <Tab icon={<Icon>people</Icon>} label="Social" />
-                        </Tabs>
-                    <PatronSettings className={classes.settings} history={this.props.history} user={this.props.user} />
+                    <PatronSearch />
+                    <Tabs value={value} onChange={this.handleChange} className={classes.tabs}>
+                        <Tab icon={<Icon>list</Icon>} label="List"/>
+                        <Tab icon={<Icon>map</Icon>} label="Map" />
+                        <Tab icon={<Icon>people</Icon>} label="Social" />
+                    </Tabs>
+                    <PatronSettings history={this.props.history} user={this.props.user} />
                 </AppBar>
                 {value === 0 && <TabContainer><div><PatronListView /></div></TabContainer>}
                 {value === 1 && <TabContainer><div><PatronMapView /></div></TabContainer>}

@@ -28,7 +28,6 @@ const styles = theme => ({
     },
     searchButton: {
         color: 'white',
-        display: 'inline',
     },
     list: {
         margin: "auto",
