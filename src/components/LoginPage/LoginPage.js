@@ -81,7 +81,7 @@ class LoginPage extends Component {
     return (
       <div>
         <Typography align="center" variant="headline" className={classes.venu}>Venu</Typography>
-        <FormControl onSubmit={this.login} className={classes.form}>
+        <FormControl className={classes.form}>
           <TextField
             required
             type="text"
@@ -103,7 +103,7 @@ class LoginPage extends Component {
           />
           <br/>
           <br/>
-          <Button onSubmit={this.login} onClick={this.login} variant="contained">Login</Button>
+          <Button onClick={this.login} variant="contained">Login</Button>
         </FormControl>
         <RegistrationLinkBar />
       </div>

@@ -15,7 +15,7 @@ import {compose} from 'redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import {PATRON_ACTIONS} from '../../redux/actions/patronActions';
-import TestGoogleMap from '../PatronMapView/TestGoogleMap';
+import TestGoogleMap from '../PatronMapView/GoogleMap';
 
 const mapStateToProps = state => ({
     checkIn: state.patron.checkInData,

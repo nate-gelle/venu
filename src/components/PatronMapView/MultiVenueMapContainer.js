@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, Marker, InfoWindow, GoogleApiWrapper } from 'google-maps-react';
+import Typography from '@material-ui/core/Typography';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -18,15 +19,36 @@ class MultiVenueMapContainer extends Component {
                 lng: -93.263187,
             },
             zoom: 12,
+            showingInfoWindow: false,
+            activeMarker: {},
+            selectedPlace: {},
         };
     }
+
+    
+
+  onMarkerClick = (props, marker, e) =>
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true
+    });
+
+  onMapClicked = (props) => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null
+      })
+    }
+  };
 
     render() {
 
         let venues = this.props.venues;
         let venueMarkers = venues.map((venue, i) => {
             return (
-                <Marker key={i} position={{ lat: venue.lat, lng: venue.long }}/>
+                <Marker key={i} position={{ lat: venue.lat, lng: venue.long }} title={venue.name} name={venue.name} onClick={this.onMarkerClick}/>
             )
         });
 
@@ -37,8 +59,17 @@ class MultiVenueMapContainer extends Component {
                     google={this.props.google}
                     zoom={this.state.zoom}
                     initialCenter={this.state.latLng}
+                    onClick={this.onMapClicked}
                 >
                     {venueMarkers}
+                    <InfoWindow
+                        marker={this.state.activeMarker}
+                        visible={this.state.showingInfoWindow}
+                    >
+                        <div>
+                        <Typography>{this.state.selectedPlace.name}</Typography>
+                        </div>
+                    </InfoWindow>
                 </Map>
             </div>
         )

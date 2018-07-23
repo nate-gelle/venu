@@ -21,16 +21,16 @@ router.get('/search/:search', (req, res) => {
   console.log ('req.params.search=', search)
   const queryText = 'SELECT * FROM person WHERE username LIKE $1;';
   pool.query(queryText, [search])
-    .then((result) => {
-      if (result.rows.length === 0){
-        res.send(null);
-      } else {
-        res.send(result.rows);
-        console.log('result.rows:', result.rows);
-      }
-    }).catch((error) => {
-      console.log(error);
-    })
+  .then((result) => {
+    if (result.rows.length === 0){
+      res.send(null);
+    } else {
+      res.send(result.rows);
+      console.log('result.rows:', result.rows);
+    }
+  }).catch((error) => {
+    console.log(error);
+  })
 });
 
 router.get('/checkin', (req, res) => {

@@ -13,9 +13,11 @@ const styles = theme => ({
     lineHeight: "300px",
     width: "100%",
     fontSize: "80px",
-    backgroundColor: "rgb(61, 96, 212)",
+    backgroundColor: "slategrey",
     color: "white",
-    padding: "20px 0",
+    position: "static",
+    top: 0,
+    left: 0,
   },
   buttons: {
     height: "100px",

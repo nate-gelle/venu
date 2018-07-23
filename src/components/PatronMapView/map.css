@@ -1,7 +1,6 @@
 .mapContainer{
     grid-template-columns: 1fr ;
     grid-row: 1;
-    border: 3px solid #000;
     min-height: 300px;
     min-width: 300px;
     max-width: 100%;

@@ -29,7 +29,11 @@ const styles = theme => ({
     searchButton: {
         color: 'white',
         display: 'inline',
-    }
+    },
+    list: {
+        margin: "auto",
+        textAlign: "center",
+    },
 });
 
 class PatronSearch extends Component {
@@ -46,14 +50,26 @@ class PatronSearch extends Component {
 
     runSearch = (event) => {
         event.persist();
-        this.props.dispatch({ type: PATRON_ACTIONS.SEARCH, payload: event.target.value })
+        if(event.target.value !== ""){
+            this.props.dispatch({ type: PATRON_ACTIONS.SEARCH, payload: event.target.value })
+        } else {
+            this.props.dispatch({type: PATRON_ACTIONS.STORE_SEARCH_RESULTS, payload: []})
+        }
     }
 
     addFriend = (id) => {
         let action = { type: PATRON_ACTIONS.ADD_FRIEND, payload: id };
         console.log(action);
         this.props.dispatch( action );
-    } 
+    }
+    
+    checkIfPatron = (patron) => {
+        if(patron.type === 'patron'){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     handleClose = () => {
         this.setState({ open: false });
@@ -71,7 +87,7 @@ class PatronSearch extends Component {
                 onClose={this.handleClose}
                 aria-labelledby="form-dialog-title"
                 >
-                    <DialogTitle id="form-dialog-title">Search</DialogTitle>
+                    <DialogTitle id="form-dialog-title">Search Patrons</DialogTitle>
                     <DialogContent>
                         <TextField
                         autoFocus
@@ -82,8 +98,8 @@ class PatronSearch extends Component {
                         onChange={this.runSearch}
                         />
                     </DialogContent>
-                    <List>
-                        {this.props.patrons.map((patron, i) => <ListItem key={i}><ListItemText>{patron.username}</ListItemText><Button onClick={() => this.addFriend(patron.id)}><ListItemIcon><PersonAddIcon/></ListItemIcon></Button></ListItem>)}
+                    <List className={classes.list}>
+                        {this.props.patrons.filter(patron => patron.type === 'patron').map((patron, i) => <ListItem key={i}><Button onClick={() => this.addFriend(patron.id)}><ListItemIcon><PersonAddIcon/></ListItemIcon></Button><ListItemText>{patron.username}</ListItemText></ListItem>)}
                     </List>   
                 </Dialog>
             </div>

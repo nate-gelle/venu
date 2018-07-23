@@ -1,6 +1,34 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import FormControl from '@material-ui/core/FormControl';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import {compose} from 'redux';
+
+const styles = theme => ({
+  form: {
+    display: "block",
+    margin: "auto",
+    textAlign: "center",
+  },
+  venu: {
+    height: "250px",
+    lineHeight: "250px",
+    width: "100%",
+    fontSize: "80px",
+    backgroundColor: "slategrey",
+    color: "white",
+    position: "static",
+    top: 0,
+    left: 0,
+  },
+  title: {
+    padding: '10px',
+  }
+});
 
 class RegisterPatron extends Component {
   constructor(props) {
@@ -57,6 +85,10 @@ class RegisterPatron extends Component {
     });
   }
 
+  cancel = (event) => {
+    this.props.history.push('/login');
+  }
+
   renderAlert() {
     if (this.state.message !== '') {
       return (
@@ -72,68 +104,66 @@ class RegisterPatron extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         {this.renderAlert()}
-        <form onSubmit={this.registerUser}>
-          <h1>Register User</h1>
-          <div>
-            <label htmlFor="first">
-              First Name:
-              <input
-                type="text"
-                name="first"
-                value={this.state.first}
-                onChange={this.handleInputChangeFor('first')}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="last">
-              Last Name:
-              <input
-                type="text"
-                name="last"
-                value={this.state.last}
-                onChange={this.handleInputChangeFor('last')}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="username">
-              Username:
-              <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                onChange={this.handleInputChangeFor('username')}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="password">
-              Password:
-              <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={this.handleInputChangeFor('password')}
-              />
-            </label>
-          </div>
-          <div>
-            <input
-              type="submit"
-              name="submit"
-              value="Register"
-            />
-            <Link to="/login">Cancel</Link>
-          </div>
-        </form>
+        <Typography align="center" variant="headline" className={classes.venu}>Venu</Typography>
+        <Typography align="center" variant="headline" className={classes.title}>Patron Registration</Typography>
+        <FormControl className={classes.form}>
+          <TextField
+            type="text"
+            id="first"
+            placeholder="first name"
+            name="first"
+            value={this.state.first}
+            onChange={this.handleInputChangeFor('first')}
+            label="first"
+          />
+          <br/>
+          <TextField
+            type="text"
+            id="last"
+            placeholder="last name"
+            name="last"
+            value={this.state.last}
+            onChange={this.handleInputChangeFor('last')}
+            label="last"
+          />
+          <br/>
+          <TextField
+            required
+            type="text"
+            id="username"
+            placeholder="username"
+            name="username"
+            value={this.state.username}
+            onChange={this.handleInputChangeFor('username')}
+            label="username"
+          />
+          <br/>
+          <TextField
+            required
+            type="password"
+            name="password"
+            id="password"
+            placeholder="password"
+            value={this.state.password}
+            onChange={this.handleInputChangeFor('password')}
+            label="password"
+          />
+          <br/>
+          <br/>
+          <Button onClick={this.registerUser} variant="contained">Register</Button>
+          <Button onClick={this.cancel} variant="contained">Cancel</Button>
+        </FormControl>
       </div>
     );
   }
 }
 
-export default RegisterPatron;
+RegisterPatron.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
+export default compose(withStyles(styles))(RegisterPatron);
