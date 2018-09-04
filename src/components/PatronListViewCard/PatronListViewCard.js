@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { compose } from 'redux';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -11,7 +12,6 @@ import PlaceIcon from '@material-ui/icons/Place';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import classnames from 'classnames';
 import {connect} from 'react-redux';
-import {compose} from 'redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import {PATRON_ACTIONS} from '../../redux/actions/patronActions';
@@ -95,9 +95,6 @@ class PatronListViewCard extends Component {
                             <Typography gutterBottom variant="headline" component="h2">
                             {this.props.venue.name}
                             </Typography>
-                            {/* <Typography className={classes.distance} component="p">
-                                [venue.distance]
-                            </Typography> */}
                         </CardContent>
                         <CardActions>
                             <Button onClick={() => this.checkIn(this.props.venue.person_id)} size="small" color="primary"><PlaceIcon />{this.checkForCheckIn(this.props.venue.person_id)? 'Check Out' : 'Check In' }</Button>
