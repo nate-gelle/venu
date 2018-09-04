@@ -31,7 +31,7 @@ class VenueSettings extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-                    <Button id="logoutButton" onClick={this.logout}>
+                    <Button id="logoutButton" variant="contained" onClick={this.logout}>
                         Log Out
                     </Button>
         </div>

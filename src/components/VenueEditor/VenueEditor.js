@@ -2,6 +2,31 @@ import React, { Component } from 'react';
 import {VENUE_ACTIONS} from '../../redux/actions/venueActions';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import FormControl from '@material-ui/core/FormControl';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import {compose} from 'redux';
+
+const styles = theme => ({
+  form: {
+    display: "block",
+    margin: "auto",
+    textAlign: "center",
+  },
+  venu: {
+    height: "100px",
+    lineHeight: "100px",
+    width: "100%",
+    fontSize: "80px",
+    backgroundColor: "slategrey",
+    color: "white",
+    position: "static",
+    top: 0,
+    left: 0,
+  },
+});
 
 class VenueEditor extends Component {
   constructor(props) {
@@ -61,87 +86,86 @@ class VenueEditor extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         {this.renderAlert()}
-        <Button onClick={this.cancel}>
-          Cancel
-        </Button>
-        <form onSubmit={this.updateProfile}>
-          <div>
-              <input
-                type="text"
-                name="category"
-                placeholder="category"
-                value={this.state.category}
-                onChange={this.handleInputChangeFor('category')}
-              />
-          </div>
-          <div>
-              <input
-                type="text"
-                name="url"
-                placeholder="url"
-                value={this.state.url}
-                onChange={this.handleInputChangeFor('url')}
-              />
-          </div>
-          <div>
-              <input
-                type="text"
-                name="address"
-                placeholder="address"
-                value={this.state.address}
-                onChange={this.handleInputChangeFor('address')}
-              />
-          </div>
-          <div>
-              <input
-                type="text"
-                name="phone"
-                placeholder="phone"
-                value={this.state.phone}
-                onChange={this.handleInputChangeFor('phone')}
-              />
-          </div>
-          <div>
-              <input
-                type="text"
-                name="coverPhoto"
-                placeholder="image url"
-                value={this.state.image_url}
-                onChange={this.handleInputChangeFor('image_url')}
-              />
-          </div>
-          <div>
-              <input
-                type="text"
-                name="outdoor"
-                placeholder="outdoor seating?"
-                value={this.state.outdoor}
-                onChange={this.handleInputChangeFor('outdoor')}
-              />
-          </div>
-          <div>
-              <input
-                type="text"
-                name="price"
-                placeholder="$-$$$"
-                value={this.state.price}
-                onChange={this.handleInputChangeFor('price')}
-              />
-          </div>
-          <div>
-            <input
-              type="submit"
-              name="submit"
-              value="Save Changes"
-            />
-          </div>
-        </form>
+        <Typography align="center" variant="headline" className={classes.venu}>Venu</Typography>
+        <FormControl className={classes.form}>
+          <TextField
+            type="text"
+            id="category"
+            placeholder="category"
+            name="category"
+            value={this.state.category}
+            onChange={this.handleInputChangeFor('category')}
+          />
+          <br/>
+          <TextField
+            type="text"
+            id="url"
+            placeholder="url"
+            name="url"
+            value={this.state.url}
+            onChange={this.handleInputChangeFor('url')}
+          />
+          <br/>
+          <TextField
+            type="text"
+            id="address"
+            placeholder="address"
+            name="address"
+            value={this.state.address}
+            onChange={this.handleInputChangeFor('address')}
+          />
+          <br/>
+          <TextField
+            type="text"
+            id="phone"
+            placeholder="phone"
+            name="phone"
+            value={this.state.phone}
+            onChange={this.handleInputChangeFor('phone')}
+          />
+          <br/>
+          <TextField
+            type="text"
+            id="coverPhoto"
+            placeholder="cover photo url"
+            name="coverPhoto"
+            value={this.state.image_url}
+            onChange={this.handleInputChangeFor('image_url')}
+          />
+          <br/>
+          <TextField
+            type="text"
+            id='outdoor'
+            name="outdoor"
+            placeholder="outdoor seating?"
+            value={this.state.outdoor}
+            onChange={this.handleInputChangeFor('outdoor')}
+          />
+          <br/>
+          <TextField
+            type="text"
+            id="price"
+            name="price"
+            placeholder="$-$$$"
+            value={this.state.price}
+            onChange={this.handleInputChangeFor('price')}
+          />
+          <br/>
+          <br/>
+          <Button onClick={this.updateProfile} variant="contained">Save Changes</Button>
+          <Button onClick={this.cancel} variant="contained">Cancel</Button>
+        </FormControl>
       </div>
     );
   }
 }
 
-export default connect()(VenueEditor);
+VenueEditor.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default compose(withStyles(styles),connect())(VenueEditor);
