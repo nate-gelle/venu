@@ -1,6 +1,6 @@
 # Venu
 
-A full-stack web application (designed for mobile responsiveness) that offers a single platform for venues of all sorts to publish and share a highly-customizable collection of marketing information. Patrons are then able to view this information, find a venue of interest, and optionally check-in for social sharing.
+A full-stack web application (designed for mobile responsiveness) that offers a single platform for venues of all sorts to publish and share a highly-customizable collection of marketing information. Patrons are then able to view this information, find a venue of interest, and optionally check-in for social sharing. The current version is deployed on Heroku, check it out! URL: (https://infinite-coast-11399.herokuapp.com/)
 
 ## Built With
 
@@ -22,7 +22,7 @@ google-maps-react
 Before you get started, make sure you have the following software installed on your computer:
 
 - [Node.js](https://nodejs.org/en/)
-- [PostrgeSQL](https://www.postgresql.org/)
+- [PostgreSQL](https://www.postgresql.org/)
 - [Nodemon](https://nodemon.io/)
 
 ### Installing
@@ -36,7 +36,7 @@ Before you get started, make sure you have the following software installed on y
 
 ### Create database and table
 
-Create a new database called `venu` and create the tables from the database.sql file:
+Create a new database called `venu` and create the tables from the database.sql file
 
 <!-- ## Development Setup Instructions
 
